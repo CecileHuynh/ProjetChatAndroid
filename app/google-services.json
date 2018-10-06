@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "792022108722",
+    "firebase_url": "https://projetchatandroid.firebaseio.com",
+    "project_id": "projetchatandroid",
+    "storage_bucket": "projetchatandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792022108722:android:972a0f3e49d7905f",
+        "android_client_info": {
+          "package_name": "com.cpelyon.cechu.projetchatandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792022108722-n49ahavq82c1p6h9uqs9hekuurlk440q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpelyon.cechu.projetchatandroid",
+            "certificate_hash": "798386c614be0318619605384611d92eb304729c"
+          }
+        },
+        {
+          "client_id": "792022108722-qk678panchpmi7r0hvf8qn5os79dluit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7z36cyE17olwry5pP4UhhwvNSYMokCKI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792022108722-qk678panchpmi7r0hvf8qn5os79dluit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
