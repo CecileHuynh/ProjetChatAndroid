@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".HomePageUser" />
+        <activity android:name=".SignUpPage"></activity>
     </application>
 
 </manifest>

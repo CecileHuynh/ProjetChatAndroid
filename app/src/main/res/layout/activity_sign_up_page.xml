@@ -10,19 +10,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
+    tools:context=".SignUpPage"
     >
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name_app"
-        android:layout_gravity="center"
-        android:textSize="@dimen/text_big"
-        android:textColor="@color/yellow"
-        />
 
     <ScrollView
         android:id="@+id/login_form"
@@ -71,25 +61,18 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/sign_in_button"
+                android:id="@+id/sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign"
+                android:text="Sign Up"
                 android:textStyle="bold" />
-
-            <TextView
-            android:id="@+id/sign_up_link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up_link"
-            android:gravity="center"    />
+            <!-- Login progress -->
             <ProgressBar
                 android:id="@+id/login_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone"
                 style="?android:attr/progressBarStyleLarge"

@@ -5,4 +5,6 @@
     <string name="password_user">password</string>
     <string name="action_sign">Sign in</string>
     <string name="name_app">TravelMsg</string>
+    <string name="sign_up_link">Sign up</string>
+    <string name="sign_up_button">sign_up_button</string>
 </resources>
