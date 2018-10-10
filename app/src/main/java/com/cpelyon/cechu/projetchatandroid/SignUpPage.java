@@ -14,8 +14,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.view.View.INVISIBLE;
 public class SignUpPage extends AppCompatActivity implements View.OnClickListener {
@@ -48,11 +54,23 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         mProgres.setVisibility(v.VISIBLE);
+
+        isCheckEmail(mEmail.getText().toString(),new OnEmailCheckListener(){
+            @Override
+            public void onSuccess(boolean isRegistered) {
+                if(isRegistered){
+                   Toast.makeText(SignUpPage.this, "Email déja utilisé", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignUpPage.this, "Email valide", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
         mAuth.createUserWithEmailAndPassword(mEmail.getText().toString(),mPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(SignUpPage.this, "CreateUserWithEmail: success", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) { Toast.makeText(SignUpPage.this, "CreateUserWithEmail: success", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
 
                 }
@@ -64,4 +82,22 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
             }
         });
     }
+
+
+    public void isCheckEmail(final String email,final OnEmailCheckListener listener){
+        mAuth.fetchProvidersForEmail(email).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<ProviderQueryResult> task)
+            {
+                boolean check = !task.getResult().getProviders().isEmpty();
+
+                listener.onSuccess(check);
+
+            }
+        });
+
+    }
+
+
 }
