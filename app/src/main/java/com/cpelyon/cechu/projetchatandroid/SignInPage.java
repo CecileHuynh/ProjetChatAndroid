@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import static android.view.View.INVISIBLE;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInPage extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mEmail;
     private EditText mPassword;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef; //mRef.child("http:s//")
-
+    private FirebaseAuth.AuthStateListener authListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +46,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSignInButton.setOnClickListener(this);
         mSignUpButton=findViewById(R.id.sign_up_link);
         mSignUpButton.setOnClickListener(this);
-
         mAuth=FirebaseAuth.getInstance();
         mDatabase=FirebaseDatabase.getInstance();
         mRef=mDatabase.getReference();
 
-    }
+        authListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()!=null){
+                    Intent intent = new Intent(SignInPage.this, chatPage.class);
+                    startActivity(intent);
+                }
+            }
+        };
 
+    }
 
     @Override
     public void onClick(View v) {
@@ -63,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "Sig in : success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInPage.this, "Sig in : success", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = new Intent(MainActivity.this, HomePageUser.class);
+                        Intent intent = new Intent(SignInPage.this, chatPage.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "Sign in: failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInPage.this, "Sign in: failed", Toast.LENGTH_SHORT).show();
 
                     }
                     mProgres.setVisibility(INVISIBLE);
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(i==R.id.sign_up_link)
         {
-            Intent intentSignUpPage = new Intent(MainActivity.this, SignUpPage.class);
+            Intent intentSignUpPage = new Intent(SignInPage.this, SignUpPage.class);
             startActivity(intentSignUpPage);
         }
     }

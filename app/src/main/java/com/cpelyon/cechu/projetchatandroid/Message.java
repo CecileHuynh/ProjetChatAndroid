@@ -1,15 +1,12 @@
 package com.cpelyon.cechu.projetchatandroid;
 
-import java.util.Date;
+import com.google.firebase.Timestamp;
 
 public class Message {
 
     private String message;
-    private Date dateCreated;
-    //private User userSender;
+    private Timestamp dateCreated;
     private String userSender;
-    //private String urlImage;
-
     public Message() { }
 
     public Message(String message, String userSender) {
@@ -17,21 +14,19 @@ public class Message {
         this.userSender = userSender;
     }
 
-    public Message(String message, String urlImage, String userSender) {
+    public Message(String message, String userSender,Timestamp timestamp) {
         this.message = message;
-        //this.urlImage = urlImage;
         this.userSender = userSender;
+        this.dateCreated=timestamp;
     }
 
     // --- GETTERS ---
     public String getMessage() { return message; }
-    public Date getDateCreated() { return dateCreated; }
+    public Timestamp getDateCreated() { return dateCreated; }
     public String getUserSender() { return userSender; }
-    //public String getUrlImage() { return urlImage; }
 
     // --- SETTERS ---
     public void setMessage(String message) { this.message = message; }
-    public void setDateCreated(Date dateCreated) { this.dateCreated = dateCreated; }
+    public void setDateCreated(Timestamp dateCreated) { this.dateCreated = dateCreated; }
     public void setUserSender(String userSender) { this.userSender = userSender; }
-   // public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
 }

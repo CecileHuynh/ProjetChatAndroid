@@ -3,4 +3,5 @@
     <dimen name="text_big">40sp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="hauteur_conversation_fenetre">470dp</dimen>
 </resources>

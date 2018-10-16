@@ -83,7 +83,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
-                    User newUser=new User(mUid,mUsername.getText().toString(),mPassword.getText().toString(),sEmail);
+                    User newUser=new User(mUid,mUsername.getText().toString(),sEmail);
                     addUserToFireStore(newUser);
                 }
                 else{
@@ -102,6 +102,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(SignUpPage.this, "addUsertofirestore: success", Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {

@@ -1,25 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_chat_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chatPage">
+    tools:context=".chatPage"
+    >
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="280dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/key_in_message">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/key_in_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="#CCC"
-        android:hint="Entrez votre message ..."/>
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCC"
+            android:hint="Entrez votre message ..."
+            android:imeOptions="actionDone" />
 
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/key_in_message"
+            android:src="@drawable/image_send" />
+
+
+
+    </LinearLayout>
 </RelativeLayout>
