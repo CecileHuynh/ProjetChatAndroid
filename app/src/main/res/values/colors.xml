@@ -6,4 +6,6 @@
     <color name="yellow">#FFCC33</color>
     <color name="tabtextcolor">#FFFFFF</color>
     <color name="tabindicatorcolor">#000</color>
+    <color name="conversation_bubble">#f4b642</color>
+    <color name="toolbar_color">#dd831c</color>
 </resources>

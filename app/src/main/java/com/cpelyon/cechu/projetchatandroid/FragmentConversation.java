@@ -1,5 +1,6 @@
 package com.cpelyon.cechu.projetchatandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ public class FragmentConversation extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.conversations_fragment,container,false);
+        button=getView().findViewById(R.id.button);
+        button.setOnClickListener((View.OnClickListener) this);
         return view;
     }
 
@@ -25,5 +28,10 @@ public class FragmentConversation extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
   //      setContentView(R.layout.activity_home_page_user);
+    }
+
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), chatPage.class);
+        startActivity(intent);
     }
 }

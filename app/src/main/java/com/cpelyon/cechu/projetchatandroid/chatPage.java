@@ -23,9 +23,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class chatPage extends AppCompatActivity implements View.OnClickListener {
@@ -75,7 +78,7 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void GetAllMessage(){
-         mFirestore.collection(COLLECTION_CHAT).orderBy("dateCreated").addSnapshotListener(new EventListener<QuerySnapshot>() {
+         mFirestore.collection(COLLECTION_CHAT).orderBy("dateCreated",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -85,7 +88,7 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
                 message = new ArrayList<>();
                 for (DocumentSnapshot doc : snapshots) {
                     if (doc.get("message") != null) {
-                        Message currMessage=new Message(doc.getString("message"),doc.getString("userSender"),doc.getTimestamp("dateCreated"));
+                        Message currMessage=new Message(doc.getString("message"),doc.getString("userSender"),doc.getString("dateCreated"));
                         message.add(currMessage);
                     }
                 }
@@ -95,16 +98,18 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    //AddSnapShopListener s'execute seulement qu'a chaque changement. Donc en dehors, on aura pas accès aux données
     private void onMessagesUpdated() {
-            convAdapter = new ConvAdapter(message);
-            main_list.setAdapter(convAdapter);
+        convAdapter = new ConvAdapter(message);
+        main_list.setAdapter(convAdapter);
     }
 
 
     @Override
     public void onClick(View v) {
-        Message newMessage=new Message(mMessage.getText().toString(),mUid,mTimestamp);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hhmmss");
+        Message newMessage;
+        newMessage = new Message(mMessage.getText().toString(),mUid,sdf.format(date));
         mFirestore.collection(COLLECTION_CHAT).add(newMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
