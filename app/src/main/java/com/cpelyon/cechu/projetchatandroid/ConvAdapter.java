@@ -30,14 +30,14 @@ public class ConvAdapter extends RecyclerView.Adapter<ConvAdapter.MyViewHolder> 
         View rootView = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_item, viewGroup, false);
         MyViewHolder vh = new MyViewHolder(rootView);
-        vh.authorView.setText(list_messages.get(i).getUserSender());
+        vh.authorView.setText(list_messages.get(i).getUsername());
         vh.contentView.setText(list_messages.get(i).getMessage());
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder vh, int i) {
-        vh.authorView.setText(list_messages.get(i).getUserSender());
+        vh.authorView.setText(list_messages.get(i).getUsername());
         vh.contentView.setText(list_messages.get(i).getMessage());
     }
 

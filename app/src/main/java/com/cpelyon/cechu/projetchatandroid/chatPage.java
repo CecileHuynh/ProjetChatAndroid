@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,9 +33,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class chatPage extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "FireLog" ;
     private EditText mMessage;
     private ImageButton mButtonValidate;
     private FirebaseAuth mAuth;
@@ -40,6 +45,7 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     private FirebaseFirestore mFirestore;
     private FirebaseUser mUser;
     private String mUid;
+    private String mName;
     private ListView mListview;
     private static final String COLLECTION_CHAT="chatGroup";
     private Timestamp mTimestamp;
@@ -47,12 +53,18 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     private RecyclerView recyclerView;
     private ConvAdapter convAdapter;
     private RecyclerView main_list;
+    private Toolbar mTopToolbar;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_page);
 
-     //   recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
+
+
+        //   recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
         mButtonValidate=findViewById(R.id.button);
         mButtonValidate.setOnClickListener(this);
         mMessage=findViewById(R.id.editText);
@@ -64,7 +76,9 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
             mUid=mUser.getUid();
         }
 
+
         mFirestore.collection(COLLECTION_CHAT);
+        retrieveUsername();
         GetAllMessage();
         setUpRecylerView();
 
@@ -78,7 +92,8 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void GetAllMessage(){
-         mFirestore.collection(COLLECTION_CHAT).orderBy("dateCreated",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+        mFirestore.collection(COLLECTION_CHAT).orderBy("dateCreated",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -87,8 +102,8 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
                 }
                 message = new ArrayList<>();
                 for (DocumentSnapshot doc : snapshots) {
-                    if (doc.get("message") != null) {
-                        Message currMessage=new Message(doc.getString("message"),doc.getString("userSender"),doc.getString("dateCreated"));
+                    if (doc.get("message") !=  "") {
+                        Message currMessage=new Message(doc.getString("message"),doc.getString("userSender"),doc.getString("dateCreated"),doc.getString("username"));
                         message.add(currMessage);
                     }
                 }
@@ -107,13 +122,15 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hhmmss");
-        Message newMessage;
-        newMessage = new Message(mMessage.getText().toString(),mUid,sdf.format(date));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hhmmss",Locale.FRANCE);
+        User user = new User(mUid,mName,mUser.getEmail());
+        Message newMessage = new Message(mMessage.getText().toString(), mUid, sdf.format(date), user.getUsername());
+
         mFirestore.collection(COLLECTION_CHAT).add(newMessage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Toast.makeText(chatPage.this, "Enregistrement message: Succes", Toast.LENGTH_SHORT).show();
+                mMessage.setText("");
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -123,6 +140,21 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
             }
         });
     }
+
+
+    private void retrieveUsername(){
+        mFirestore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                for(DocumentSnapshot doc : snapshots){
+                    if(mUid.equals(doc.getString("uid"))){
+                        mName = doc.getString("username");
+                    }
+                }
+            }
+
+        });
+}
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
