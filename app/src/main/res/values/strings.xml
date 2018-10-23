@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProjetChatAndroid</string>
+        <string name="app_name">Wimi</string>
     <string name="name_chat">TravelText</string>
     <string name="email_user">Email</string>
     <string name="password_user">password</string>
