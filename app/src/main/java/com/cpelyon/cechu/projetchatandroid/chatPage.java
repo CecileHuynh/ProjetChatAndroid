@@ -1,5 +1,6 @@
 package com.cpelyon.cechu.projetchatandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,7 +55,8 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
     private RecyclerView recyclerView;
     private ConvAdapter convAdapter;
     private RecyclerView main_list;
-    private Toolbar mTopToolbar;
+    private Toolbar mToolbar;
+
 
 
 
@@ -62,15 +65,15 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_page);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
-
-        //   recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
         mButtonValidate=findViewById(R.id.button);
         mButtonValidate.setOnClickListener(this);
         mMessage=findViewById(R.id.editText);
         mAuth=FirebaseAuth.getInstance();
         mFirestore=FirebaseFirestore.getInstance();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUser = mAuth.getCurrentUser();
         mTimestamp=Timestamp.now();
         if(mUser!=null){
             mUid=mUser.getUid();
@@ -81,6 +84,30 @@ public class chatPage extends AppCompatActivity implements View.OnClickListener 
         retrieveUsername();
         GetAllMessage();
         setUpRecylerView();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater  = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.logout:
+                Intent intentSignInPage = new Intent(chatPage.this, SignInPage.class);
+                startActivity(intentSignInPage);
+            case R.id.contacts:
+                 Toast.makeText(chatPage.this,"Affichage",Toast.LENGTH_SHORT).show();
+                //Afficher la page de contacts ou alors la page UserProfile.
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
