@@ -74,7 +74,7 @@ public class SignInPage extends AppCompatActivity implements View.OnClickListene
                     if (task.isSuccessful()) {
                         Toast.makeText(SignInPage.this, "Sig in : success", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = new Intent(SignInPage.this, chatPage.class);
+                        Intent intent = new Intent(SignInPage.this, ProfilePage.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(SignInPage.this, "Sign in: failed", Toast.LENGTH_SHORT).show();
